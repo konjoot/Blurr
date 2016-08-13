@@ -2,7 +2,6 @@ package registry
 
 import (
 	"github.com/konjoot/blurr/jobs/base"
-	"github.com/konjoot/blurr/jobs/file_sharing"
 	"github.com/konjoot/blurr/queue"
 	"testing"
 
