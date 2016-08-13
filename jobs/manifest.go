@@ -4,9 +4,9 @@
 package jobs
 
 import (
-	"skat/registry"
+	"github.com/konjoot/blurr/registry"
 
-	"skat/jobs/base"
+	"github.com/konjoot/blurr/jobs/base"
 )
 
 func init() {

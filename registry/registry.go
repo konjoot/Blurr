@@ -2,8 +2,8 @@
 package registry
 
 import (
-	"skat/jobs/interfaces"
-	"skat/queue"
+	"github.com/konjoot/blurr/jobs/interfaces"
+	"github.com/konjoot/blurr/queue"
 )
 
 var knownJobs map[string]Constructor

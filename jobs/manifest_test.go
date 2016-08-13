@@ -1,8 +1,8 @@
 package jobs
 
 import (
-	"skat/queue"
-	"skat/registry"
+	"github.com/konjoot/blurr/queue"
+	"github.com/konjoot/blurr/registry"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

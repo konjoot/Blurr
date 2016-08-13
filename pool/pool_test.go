@@ -1,7 +1,7 @@
 package pool
 
 import (
-	"skat/hooks"
+	"github.com/konjoot/blurr/hooks"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

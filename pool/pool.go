@@ -3,10 +3,10 @@ package pool
 
 import (
 	"errors"
+	"github.com/konjoot/blurr/hooks"
+	"github.com/konjoot/blurr/task"
+	"github.com/konjoot/blurr/worker"
 	"runtime"
-	"skat/hooks"
-	"skat/task"
-	"skat/worker"
 	"sync"
 )
 

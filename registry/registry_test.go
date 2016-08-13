@@ -1,9 +1,9 @@
 package registry
 
 import (
-	"skat/jobs/base"
-	"skat/jobs/file_sharing"
-	"skat/queue"
+	"github.com/konjoot/blurr/jobs/base"
+	"github.com/konjoot/blurr/jobs/file_sharing"
+	"github.com/konjoot/blurr/queue"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

@@ -2,9 +2,9 @@
 package worker
 
 import (
+	"github.com/konjoot/blurr/hooks"
+	"github.com/konjoot/blurr/task"
 	"runtime"
-	"skat/hooks"
-	"skat/task"
 )
 
 // Kонструктор воркера

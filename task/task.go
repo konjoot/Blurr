@@ -3,15 +3,13 @@ package task
 
 import (
 	"errors"
-	"fmt"
+	"github.com/konjoot/blurr/hooks"
+	"github.com/konjoot/blurr/jobs/interfaces"
+	"github.com/konjoot/blurr/queue"
+	"github.com/konjoot/blurr/registry"
 	"runtime"
-	"skat/hooks"
-	"skat/jobs/interfaces"
-	"skat/queue"
-	"skat/registry"
-	"time"
 
-	_ "skat/jobs"
+	_ "github.com/konjoot/blurr/jobs"
 
 	"golang.org/x/net/context"
 )
@@ -19,13 +17,17 @@ import (
 var ErrTaskDeletedByCounter = errors.New("deleting task from queue because of counter overflow")
 var ErrUnsupportedTask = errors.New("there are no job for a task")
 
+func New() Performer {
+	return &Task{ctx: context.Background()}
+}
+
 type Task struct {
 	ctx context.Context
 }
 
 // Выполняет очередное задание из очереди
 func (t *Task) Perform() int {
-	return perform(ctx, queue.New(), registry.Find)
+	return perform(t.ctx, queue.New(), registry.Find)
 }
 
 // непосредственно код, выполняющий задание
@@ -64,11 +66,10 @@ func perform(ctx context.Context, Q queue.Queuer, newJob interfaces.Finder) (cou
 		}
 	}()
 
-	// подготавливаем контекст для задания
-
-	start := time.Now()
+	// start := time.Now()
 	end := func(data *queue.Data, err error) {
-		// логирование и метрики
+		// log and metrics point
+		// use start to mesure task duration
 	}
 
 	// инициируем задание в соответствии с данными из очереди

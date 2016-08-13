@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	"skat/queue"
+	"github.com/konjoot/blurr/queue"
 
 	"golang.org/x/net/context"
 )
