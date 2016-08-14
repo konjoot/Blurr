@@ -14,7 +14,7 @@ func TestRegistry(t *testing.T) {
 
 	job = Find(&queue.Data{Type: "base"})
 	if job == nil {
-		t.Error(isNil, job)
+		t.Error(isEqual, nil, job)
 	}
 
 	job = Find(&queue.Data{Type: "unsup"})

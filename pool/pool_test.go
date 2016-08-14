@@ -32,7 +32,7 @@ func TestPool_Basic(t *testing.T) {
 	// starting pool
 	pool, err := New(10, false)
 	if err != nil {
-		t.Errorf(noError, err)
+		t.Errorf(notEqual, nil, err)
 	}
 
 	// waiting for workers
@@ -74,7 +74,7 @@ func TestPool_WorkingWithTasks(t *testing.T) {
 	// starting pool
 	pool, err = New(10, false)
 	if err != nil {
-		t.Errorf(noError, err)
+		t.Errorf(notEqual, nil, err)
 	}
 
 	// waiting for workers
@@ -149,7 +149,7 @@ func TestPool_WorkingGreedyWithTasks(t *testing.T) {
 	// starting pool
 	pool, err = New(10, true)
 	if err != nil {
-		t.Errorf(noError, err)
+		t.Errorf(notEqual, nil, err)
 	}
 
 	// waiting for workers

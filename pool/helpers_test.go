@@ -1,6 +1,6 @@
 package pool
 
 const (
-	notEqual = `expected '%+v' but got '%+v'`
-	noError  = `expected no error but got '%+v'`
+	notEqual = `expected '%+v' == '%+v'`
+	isEqual  = `expected '%+v' != '%+v'`
 )
