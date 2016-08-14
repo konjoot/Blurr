@@ -10,13 +10,19 @@ import (
 	"sync"
 )
 
-var ErrWrongPoolSize = errors.New("pool size should be in [1..1000]")
+var (
+	ErrSizeTooSmall = errors.New("pool size should be more then 0")
+	ErrSizeTooLarge = errors.New("pool size should be less then 1000")
+)
 
 // Конструктор пула воркеров
 func New(size int, greedy bool) (*Pool, error) {
 	// валидируем размер пула
-	if size < 1 || size > 1000 {
-		return nil, ErrWrongPoolSize
+	if size < 1 {
+		return nil, ErrSizeTooSmall
+	}
+	if size > 1000 {
+		return nil, ErrSizeTooLarge
 	}
 
 	// инициализируем семафор для корректного завершения работы

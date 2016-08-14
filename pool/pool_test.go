@@ -3,12 +3,11 @@ package pool
 import (
 	"github.com/konjoot/blurr/hooks"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestPool_Basic(t *testing.T) {
 	var err error
+
 	workers := make(chan struct{}, 11)
 	started := make(chan struct{})
 
@@ -20,36 +19,48 @@ func TestPool_Basic(t *testing.T) {
 		<-workers
 	}
 
-	expect := assert.New(t)
-
 	_, err = New(0, false)
-	expect.Equal(ErrWrongPoolSize, err)
+	if err != ErrSizeTooSmall {
+		t.Errorf(notEqual, ErrSizeTooSmall, err)
+	}
 
 	_, err = New(1001, false)
-	expect.Equal(ErrWrongPoolSize, err)
+	if err != ErrSizeTooLarge {
+		t.Errorf(notEqual, ErrSizeTooLarge, err)
+	}
 
 	// starting pool
 	pool, err := New(10, false)
-	expect.Nil(err)
+	if err != nil {
+		t.Errorf(noError, err)
+	}
 
 	// waiting for workers
 	for i := 0; i < 10; i++ {
 		<-started
 	}
 
-	expect.Equal(10, len(workers))
+	if len(workers) != 10 {
+		t.Errorf(notEqual, 10, len(workers))
+	}
 
 	// cancelling pool and waiting for workers
 	pool.Cancel()
 	pool.Wait()
 
-	expect.Equal(0, len(workers))
+	if len(workers) != 0 {
+		t.Errorf(notEqual, 0, len(workers))
+	}
 }
 
 func TestPool_WorkingWithTasks(t *testing.T) {
-	started := make(chan struct{})
-	finished := make(chan int)
-	done := make(chan struct{})
+	var (
+		err      error
+		pool     *Pool
+		started  = make(chan struct{})
+		finished = make(chan int)
+		done     = make(chan struct{})
+	)
 
 	hooks.Reset()
 
@@ -61,9 +72,10 @@ func TestPool_WorkingWithTasks(t *testing.T) {
 	}
 
 	// starting pool
-	expect := assert.New(t)
-	pool, err := New(10, false)
-	expect.Nil(err)
+	pool, err = New(10, false)
+	if err != nil {
+		t.Errorf(noError, err)
+	}
 
 	// waiting for workers
 	for i := 0; i < 10; i++ {
@@ -95,14 +107,21 @@ func TestPool_WorkingWithTasks(t *testing.T) {
 	// check that tasks performed by different workers
 	for i := 0; i < 10; i++ {
 		val, ok := workers[i]
-		expect.True(val)
-		expect.True(ok)
+
+		if val != true {
+			t.Errorf(notEqual, true, val)
+		}
+		if ok != true {
+			t.Errorf(notEqual, true, ok)
+		}
 	}
 
 	<-done
 
 	for _, task := range tasks {
-		expect.True(task.performed)
+		if task.performed != true {
+			t.Errorf(notEqual, true, task.performed)
+		}
 	}
 
 	// cancelling pool and waiting for workers
@@ -111,8 +130,12 @@ func TestPool_WorkingWithTasks(t *testing.T) {
 }
 
 func TestPool_WorkingGreedyWithTasks(t *testing.T) {
-	started := make(chan struct{})
-	finished := make(chan int, 10)
+	var (
+		err      error
+		pool     *Pool
+		started  = make(chan struct{})
+		finished = make(chan int, 10)
+	)
 
 	hooks.Reset()
 
@@ -124,9 +147,10 @@ func TestPool_WorkingGreedyWithTasks(t *testing.T) {
 	}
 
 	// starting pool
-	expect := assert.New(t)
-	pool, err := New(10, true)
-	expect.Nil(err)
+	pool, err = New(10, true)
+	if err != nil {
+		t.Errorf(noError, err)
+	}
 
 	// waiting for workers
 	for i := 0; i < 10; i++ {
@@ -150,12 +174,21 @@ func TestPool_WorkingGreedyWithTasks(t *testing.T) {
 	// check that tasks performed by different workers
 	for i := 0; i < 10; i++ {
 		val, ok := workers[i]
-		expect.True(val)
-		expect.True(ok)
+
+		if val != true {
+			t.Errorf(notEqual, true, val)
+		}
+		if ok != true {
+			t.Errorf(notEqual, true, ok)
+		}
 	}
 
-	expect.True(task.performed)
-	expect.Zero(<-task.count)
+	if task.performed != true {
+		t.Errorf(notEqual, true, task.performed)
+	}
+	if len(task.count) != 0 {
+		t.Errorf(notEqual, 0, len(task.count))
+	}
 
 	// cancelling pool and waiting for workers
 	pool.Cancel()
